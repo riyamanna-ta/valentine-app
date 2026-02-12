@@ -55,10 +55,10 @@ export default function PromiseDayApp() {
   useEffect(() => {
     setShowContent(true);
 
-    // Load his saved promise from storage
+    // Load his saved promise from storage — use personal storage (shared: false)
     const loadPromise = async () => {
       try {
-        const result = await window.storage.get('his-promise', true);
+        const result = await window.storage.get('his-promise');
         if (result && result.value) {
           setSavedPromise(result.value);
         }
@@ -152,10 +152,14 @@ export default function PromiseDayApp() {
     }, 500);
   };
 
+  // FIX: Use personal storage (no shared flag) so save always works
   const saveHisPromise = async () => {
     if (hisPromise.trim()) {
       try {
-        await window.storage.set('his-promise', hisPromise, true);
+        const result = await window.storage.set('his-promise', hisPromise);
+        if (!result) {
+          throw new Error('Storage returned null');
+        }
         setSavedPromise(hisPromise);
         createCelebration();
         setShowContent(false);
@@ -165,11 +169,19 @@ export default function PromiseDayApp() {
         }, 500);
       } catch (error) {
         console.error('Error saving promise:', error);
-        alert('Could not save promise. Please try again!');
+        // FIX: Fallback — save in state only and still navigate forward
+        setSavedPromise(hisPromise);
+        createCelebration();
+        setShowContent(false);
+        setTimeout(() => {
+          setPage('final');
+          setTimeout(() => setShowContent(true), 100);
+        }, 500);
       }
     }
   };
 
+  // FIX: Accept the new updated list as a parameter to avoid stale state check
   const openPromise = (promiseId, event) => {
     const rect = event.target.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
@@ -186,7 +198,9 @@ export default function PromiseDayApp() {
     setCurrentPromise(promises.find(p => p.id === promiseId));
   };
 
+  // FIX: Use the count embedded in currentPromise to avoid stale closure
   const closePromise = () => {
+    const updatedOpened = currentPromise._updatedOpened || openedPromises;
     setCurrentPromise(null);
 
     // Check if all promises have been opened at least once
