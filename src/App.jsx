@@ -302,9 +302,9 @@ export default function PromiseDayApp() {
         .card {
           background: rgba(255, 255, 255, 0.96);
           backdrop-filter: blur(20px);
-          border-radius: 40px;
-          padding: 45px 55px;
-          max-width: 600px;
+          border-radius: 30px;
+          padding: 28px 40px;
+          max-width: 560px;
           width: 100%;
           text-align: center;
           box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
@@ -313,6 +313,8 @@ export default function PromiseDayApp() {
           z-index: 10;
           opacity: 0;
           transform: scale(0.8);
+          max-height: 95vh;
+          overflow-y: auto;
         }
 
         .card.show {
@@ -346,8 +348,8 @@ export default function PromiseDayApp() {
         }
 
         .intro-icon {
-          font-size: 90px;
-          margin-bottom: 25px;
+          font-size: 65px;
+          margin-bottom: 12px;
           display: inline-block;
           animation: bounce 2.5s ease-in-out infinite;
           filter: drop-shadow(0 8px 20px rgba(251, 194, 235, 0.5));
@@ -364,7 +366,7 @@ export default function PromiseDayApp() {
 
         .title {
           font-family: 'Pacifico', cursive;
-          font-size: 3.2rem;
+          font-size: 2.4rem;
           background: linear-gradient(135deg, #6a4c93 0%, #d946a6 50%, #7a5ba8 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -384,19 +386,19 @@ export default function PromiseDayApp() {
 
         .subtitle {
           font-family: 'Quicksand', sans-serif;
-          font-size: 1.4rem;
+          font-size: 1.15rem;
           color: #7a5ba8;
-          margin-bottom: 30px;
+          margin-bottom: 20px;
           font-weight: 700;
-          line-height: 1.6;
+          line-height: 1.5;
         }
 
         .start-button {
           background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
           color: white;
           border: none;
-          padding: 18px 50px;
-          font-size: 1.3rem;
+          padding: 14px 40px;
+          font-size: 1.1rem;
           font-weight: 700;
           border-radius: 50px;
           cursor: pointer;
@@ -422,11 +424,11 @@ export default function PromiseDayApp() {
 
         .promises-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-          gap: 25px;
+          grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+          gap: 16px;
           max-width: 700px;
           margin: 0 auto;
-          padding: 20px;
+          padding: 10px;
         }
 
         .promise-envelope {
@@ -436,7 +438,7 @@ export default function PromiseDayApp() {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 4rem;
+          font-size: 3rem;
           cursor: pointer;
           transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -490,9 +492,9 @@ export default function PromiseDayApp() {
 
         .instruction {
           font-family: 'Quicksand', sans-serif;
-          font-size: 1.3rem;
+          font-size: 1.1rem;
           color: #7a5ba8;
-          margin-bottom: 30px;
+          margin-bottom: 16px;
           font-weight: 700;
           text-align: center;
         }
@@ -504,15 +506,17 @@ export default function PromiseDayApp() {
           transform: translate(-50%, -50%);
           background: rgba(255, 255, 255, 0.98);
           backdrop-filter: blur(20px);
-          border-radius: 35px;
-          padding: 50px 60px;
-          max-width: 500px;
+          border-radius: 30px;
+          padding: 35px 45px;
+          max-width: 480px;
           width: 90%;
           text-align: center;
           box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
           border: 3px solid rgba(251, 194, 235, 0.6);
           z-index: 1000;
           animation: modalPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+          max-height: 90vh;
+          overflow-y: auto;
         }
 
         @keyframes modalPop {
@@ -527,8 +531,8 @@ export default function PromiseDayApp() {
         }
 
         .promise-icon {
-          font-size: 80px;
-          margin-bottom: 25px;
+          font-size: 60px;
+          margin-bottom: 15px;
           animation: iconSpin 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
           filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.2));
         }
@@ -544,17 +548,17 @@ export default function PromiseDayApp() {
 
         .promise-title {
           font-family: 'Satisfy', cursive;
-          font-size: 2.5rem;
+          font-size: 2rem;
           color: #6a4c93;
-          margin-bottom: 20px;
+          margin-bottom: 14px;
           font-weight: 700;
         }
 
         .promise-text {
           font-family: 'Kalam', cursive;
-          font-size: 1.6rem;
+          font-size: 1.3rem;
           color: #d946a6;
-          line-height: 1.9;
+          line-height: 1.7;
           font-weight: 700;
           white-space: pre-line;
         }
@@ -563,15 +567,15 @@ export default function PromiseDayApp() {
           background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
           color: white;
           border: none;
-          padding: 14px 40px;
-          font-size: 1.1rem;
+          padding: 11px 32px;
+          font-size: 1rem;
           font-weight: 700;
           border-radius: 30px;
           cursor: pointer;
           font-family: 'Quicksand', sans-serif;
           box-shadow: 0 8px 20px rgba(166, 193, 238, 0.4);
           transition: all 0.3s ease;
-          margin-top: 25px;
+          margin-top: 16px;
         }
 
         .back-button:hover {
@@ -581,27 +585,27 @@ export default function PromiseDayApp() {
 
         .final-message {
           font-family: 'Quicksand', sans-serif;
-          font-size: 1.7rem;
+          font-size: 1.3rem;
           color: #7a5ba8;
-          line-height: 2;
-          margin-bottom: 25px;
+          line-height: 1.8;
+          margin-bottom: 15px;
           font-weight: 700;
         }
 
         .final-message .line {
           display: block;
-          margin-bottom: 15px;
+          margin-bottom: 8px;
         }
 
         .final-message .emphasis {
           font-family: 'Pacifico', cursive;
-          font-size: 2rem;
+          font-size: 1.6rem;
           color: #d946a6;
         }
 
         .heart-line {
-          font-size: 2.5rem;
-          margin: 25px 0;
+          font-size: 1.8rem;
+          margin: 15px 0;
         }
 
         @media (max-width: 768px) {
