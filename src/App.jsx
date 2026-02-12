@@ -6,8 +6,6 @@ export default function PromiseDayApp() {
   const [showContent, setShowContent] = useState(false);
   const [openedPromises, setOpenedPromises] = useState([]);
   const [currentPromise, setCurrentPromise] = useState(null);
-  const [hisPromise, setHisPromise] = useState('');
-  const [savedPromise, setSavedPromise] = useState('');
 
   const promises = [
     {
@@ -54,19 +52,6 @@ export default function PromiseDayApp() {
 
   useEffect(() => {
     setShowContent(true);
-
-    // Load his saved promise from storage — use personal storage (shared: false)
-    const loadPromise = async () => {
-      try {
-        const result = await window.storage.get('his-promise');
-        if (result && result.value) {
-          setSavedPromise(result.value);
-        }
-      } catch (error) {
-        console.log('No promise saved yet');
-      }
-    };
-    loadPromise();
 
     const interval = setInterval(() => {
       createFloatingElement();
@@ -152,36 +137,6 @@ export default function PromiseDayApp() {
     }, 500);
   };
 
-  // FIX: Use personal storage (no shared flag) so save always works
-  const saveHisPromise = async () => {
-    if (hisPromise.trim()) {
-      try {
-        const result = await window.storage.set('his-promise', hisPromise);
-        if (!result) {
-          throw new Error('Storage returned null');
-        }
-        setSavedPromise(hisPromise);
-        createCelebration();
-        setShowContent(false);
-        setTimeout(() => {
-          setPage('final');
-          setTimeout(() => setShowContent(true), 100);
-        }, 500);
-      } catch (error) {
-        console.error('Error saving promise:', error);
-        // FIX: Fallback — save in state only and still navigate forward
-        setSavedPromise(hisPromise);
-        createCelebration();
-        setShowContent(false);
-        setTimeout(() => {
-          setPage('final');
-          setTimeout(() => setShowContent(true), 100);
-        }, 500);
-      }
-    }
-  };
-
-  // FIX: Accept the new updated list as a parameter to avoid stale state check
   const openPromise = (promiseId, event) => {
     const rect = event.target.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
@@ -189,27 +144,22 @@ export default function PromiseDayApp() {
 
     createOpenEffect(x, y);
 
-    // Add to opened list if not already there (for tracking)
     if (!openedPromises.includes(promiseId)) {
       setOpenedPromises(prev => [...prev, promiseId]);
     }
 
-    // Show the promise modal (stays open until back button clicked)
     setCurrentPromise(promises.find(p => p.id === promiseId));
   };
 
-  // FIX: Use the count embedded in currentPromise to avoid stale closure
   const closePromise = () => {
-    const updatedOpened = currentPromise._updatedOpened || openedPromises;
     setCurrentPromise(null);
 
-    // Check if all promises have been opened at least once
     if (openedPromises.length === promises.length) {
       setTimeout(() => {
         createCelebration();
         setShowContent(false);
         setTimeout(() => {
-          setPage('his-turn');
+          setPage('final');
           setTimeout(() => setShowContent(true), 100);
         }, 500);
       }, 500);
@@ -654,70 +604,6 @@ export default function PromiseDayApp() {
           margin: 25px 0;
         }
 
-        .promise-input {
-          width: 100%;
-          min-height: 200px;
-          padding: 20px;
-          font-family: 'Quicksand', sans-serif;
-          font-size: 1.2rem;
-          border: 3px solid #fbc2eb;
-          border-radius: 20px;
-          background: rgba(255, 255, 255, 0.9);
-          color: #a6c1ee;
-          resize: vertical;
-          margin: 25px 0;
-          line-height: 1.6;
-        }
-
-        .promise-input:focus {
-          outline: none;
-          border-color: #a6c1ee;
-          box-shadow: 0 0 20px rgba(166, 193, 238, 0.3);
-        }
-
-        .promise-input::placeholder {
-          color: rgba(166, 193, 238, 0.5);
-        }
-
-        .save-button {
-          background: linear-gradient(135deg, #d946a6 0%, #6a4c93 100%);
-          color: white;
-          border: none;
-          padding: 16px 45px;
-          font-size: 1.2rem;
-          font-weight: 700;
-          border-radius: 50px;
-          cursor: pointer;
-          font-family: 'Quicksand', sans-serif;
-          box-shadow: 0 12px 35px rgba(217, 70, 166, 0.4);
-          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-          margin-top: 10px;
-        }
-
-        .save-button:hover {
-          transform: translateY(-5px) scale(1.08);
-          box-shadow: 0 18px 45px rgba(217, 70, 166, 0.6);
-        }
-
-        .save-button:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .saved-promise-display {
-          background: rgba(251, 194, 235, 0.1);
-          border: 3px solid #fbc2eb;
-          border-radius: 20px;
-          padding: 25px;
-          margin: 25px 0;
-          font-family: 'Quicksand', sans-serif;
-          font-size: 1.3rem;
-          color: #a6c1ee;
-          line-height: 1.8;
-          white-space: pre-line;
-          font-weight: 600;
-        }
-
         @media (max-width: 768px) {
           .card, .promise-modal {
             padding: 35px 30px;
@@ -833,32 +719,6 @@ export default function PromiseDayApp() {
           <p className="instruction" style={{ marginTop: '30px', fontSize: '1.1rem' }}>
             Opened: {openedPromises.length} / {promises.length}
           </p>
-        </div>
-      )}
-
-      {/* His Turn Page */}
-      {page === 'his-turn' && (
-        <div className={`card ${showContent ? 'show' : 'hide'}`}>
-          <div className="intro-icon">💌</div>
-          <h1 className="title" style={{ fontSize: '2.5rem' }}>Now Your Turn!</h1>
-          <p className="subtitle">
-            Write your promises to me... 💕
-            <br />
-            I'll be able to see them when I open this! ✨
-          </p>
-          <textarea
-            className="promise-input"
-            placeholder="Write your promises here... 💖"
-            value={hisPromise}
-            onChange={(e) => setHisPromise(e.target.value)}
-          />
-          <button
-            className="save-button"
-            onClick={saveHisPromise}
-            disabled={!hisPromise.trim()}
-          >
-            Save My Promises! 💝
-          </button>
         </div>
       )}
 
