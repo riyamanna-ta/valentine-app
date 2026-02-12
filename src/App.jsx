@@ -724,16 +724,16 @@ export default function PromiseDayApp() {
 
       {/* Final Page - Hug Day */}
       {page === 'final' && (
-        <div className={`card ${showContent ? 'show' : 'hide'}`}>
-          <div className="intro-icon">🤗💕</div>
-          <div className="final-message">
-            <span className="line emphasis">Happy Hug Day! 🤗</span>
+        <div className={`card ${showContent ? 'show' : 'hide'}`} style={{ padding: '25px 40px' }}>
+          <div className="intro-icon" style={{ fontSize: '60px', marginBottom: '12px' }}>🤗💕</div>
+          <div className="final-message" style={{ fontSize: '1.4rem', marginBottom: '10px' }}>
+            <span className="line emphasis" style={{ fontSize: '1.6rem' }}>Happy Hug Day! 🤗</span>
           </div>
-          <div className="heart-line">💕 🤗 💖 🤗 💕</div>
-          <div className="final-message">
+          <div className="heart-line" style={{ fontSize: '1.8rem', margin: '12px 0' }}>💕 🤗 💖 🤗 💕</div>
+          <div className="final-message" style={{ fontSize: '1.4rem', marginBottom: '0' }}>
             <span className="line">I really want your warm,</span>
             <span className="line">comforting hug right now...</span>
-            <span className="line emphasis">Even better if you're shirtless 😏💕</span>
+            <span className="line emphasis" style={{ fontSize: '1.6rem' }}>Even better if you're shirtless 😏💕</span>
           </div>
         </div>
       )}
